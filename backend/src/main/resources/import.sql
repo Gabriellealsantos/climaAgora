@@ -9,3 +9,7 @@ INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 2);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (3, 1);
+
+INSERT INTO tb_favorite (city, user_id) VALUES ('Sapeaçu', 1);
+INSERT INTO tb_favorite (city, user_id) VALUES ('Salvador', 2);
+INSERT INTO tb_favorite (city, user_id) VALUES ('São Paulo', 3);
