@@ -22,6 +22,7 @@ public class UserResource {
     @Autowired
     private UserService service;
 
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
@@ -63,5 +64,12 @@ public class UserResource {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
+    @PostMapping("/add-favorite-city")
+    public ResponseEntity<Void> addFavoriteCity(@RequestParam String city) {
+        service.addFavoriteCity(city);
+        return ResponseEntity.ok().build();
     }
 } 

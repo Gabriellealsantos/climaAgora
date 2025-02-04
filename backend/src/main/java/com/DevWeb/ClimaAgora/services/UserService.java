@@ -4,9 +4,11 @@ import com.DevWeb.ClimaAgora.dto.RoleDTO;
 import com.DevWeb.ClimaAgora.dto.UserDTO;
 import com.DevWeb.ClimaAgora.dto.UserInsertDTO;
 import com.DevWeb.ClimaAgora.dto.UserUpdateDTO;
+import com.DevWeb.ClimaAgora.entities.Favorite;
 import com.DevWeb.ClimaAgora.entities.Role;
 import com.DevWeb.ClimaAgora.entities.User;
 import com.DevWeb.ClimaAgora.projections.UserDetailsProjection;
+import com.DevWeb.ClimaAgora.repositories.FavoriteRepository;
 import com.DevWeb.ClimaAgora.repositories.RoleRepository;
 import com.DevWeb.ClimaAgora.repositories.UserRepository;
 import com.DevWeb.ClimaAgora.services.exceptions.DatabaseException;
@@ -42,6 +44,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private FavoriteRepository favoriteRepository;
 
     @Transactional(readOnly = true)
     public Page<UserDTO> findAllPaged(Pageable pageable) {
@@ -131,5 +136,16 @@ public class UserService implements UserDetailsService {
         }
 
         return user;
+    }
+
+    @Transactional
+    public void addFavoriteCity(String city) {
+        User user = authService.authenticated();
+
+        Favorite favorite = new Favorite();
+        favorite.setUser(user);
+        favorite.setCity(city);
+
+        favoriteRepository.save(favorite);
     }
 }
