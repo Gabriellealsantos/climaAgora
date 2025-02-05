@@ -14,6 +14,10 @@ export default function Home() {
                 />
             </div>
 
+            <div>
+                <WeatherDetails />
+            </div>
+
 
 
         </BackgroundImage>
