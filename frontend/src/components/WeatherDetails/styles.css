@@ -1,25 +1,59 @@
 .modal {
     display: flex;
-    align-items: center;
+    align-items: first baseline;
+    flex-direction: column;
+    justify-content: center;
     padding: 20px;
     width: 530px;
     height: 1200px;
     border-radius: 5px;
-    color: #333;
+    color: var(--color-text-light);
     font-family: sans-serif;
     line-height: 1.5;
     padding: 1rem 2rem;
     border: 3px solid rgba(255, 255, 255, 0.1);
 }
 
+
+.title-details {
+    font-size: 18px;
+    margin-top: 30px;
+}
+
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
     .modal {
         -webkit-backdrop-filter: blur(5px);
         backdrop-filter: blur(5px);
-      
+
     }
 
     .warning {
         display: none;
     }
+}
+
+hr {
+    border: 1px solid var(--color-text-light);
+    width: 80%;
+    margin: 80px 0 20px 0;
+}
+
+.weather-info {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-top: 30px;
+}
+
+.weather-info img {
+    width: 30px;
+    height: 30px;
+    margin-right: 35px;
+}
+
+.temperature-details {
+    font-size: 24px;
+    color: var(--color-text-gray);
+    font-weight: 600;
+    margin-left: 200px;
 }
