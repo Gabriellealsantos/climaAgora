@@ -4,7 +4,6 @@ import iceImg from '../../assets/frio.svg'
 import dropImg from '../../assets/gota.svg'
 import cloudyImg from '../../assets/nublado.svg'
 import windImg from '../../assets/vento.svg'
-import snowImg from '../../assets/outline.svg'
 import loginImg from '../../assets/entrar.png'
 import DescriptionWeather from '../DescriptionWeather';
 import { Link } from 'react-router-dom';
@@ -28,34 +27,18 @@ export default function WeatherDetails({ weather }: WeatherDetailsProps) {
             </div>
 
             <div className='description-weather'>
-                <p>trovoada com leve garoa</p>
+                <p>{weather.weather[0]?.description}</p>
             </div>
-
+            
             <div>
-                <DescriptionWeather name='Temp max' temp='19°' img={warmImg} />
-                <DescriptionWeather name='Temp min' temp='15°' img={iceImg} />
-                <DescriptionWeather name='Umidade' temp='58%' img={dropImg} />
-                <DescriptionWeather name='Temp max' temp='86%' img={cloudyImg} />
-                <DescriptionWeather name='Temp max' temp='5km/h' img={windImg} />
+                <DescriptionWeather name='Temp max' temp={Math.round(weather.main.temp_max) + "°"} img={warmImg} />
+                <DescriptionWeather name='Temp min' temp={Math.round(weather.main.temp_min) + "°"} img={iceImg} />
+                <DescriptionWeather name='Umidade' temp={Math.round(weather.main.humidity) + "%"} img={dropImg} />
+                <DescriptionWeather name='Nuvens' temp={Math.round(weather.clouds.all) + "%"} img={cloudyImg} />
+                <DescriptionWeather name='Temp max' temp={Math.round(weather.wind.speed) + "km/h"} img={windImg} />
             </div>
 
             <hr />
-
-            <div className='title-details'>
-                <p>Previsão do tempo para hoje...</p>
-            </div>
-
-            <div className="weather-info">
-                <img src={snowImg} alt="Ícone de Neve" />
-                <span className="time">
-                    09:00
-                    <p>Neve</p>
-                </span>
-                <span className="temperature-details">19°</span>
-
-            </div>
-
-
 
         </div>
     );

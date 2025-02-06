@@ -10,7 +10,7 @@ export default function Home() {
     const [weather, setWeather] = useState<WeatherResponseDTO | null>(null);
 
     useEffect(() => {
-        weatherService.findWeatherResquest("São Paulo")
+        weatherService.findWeatherResquest("antarctica")
             .then(response => {
                 setWeather(response.data);
                 console.log("Dados do clima:", response.data);
