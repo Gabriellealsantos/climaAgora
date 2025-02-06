@@ -11,7 +11,7 @@ export default function Weather({ temperature, city, date }: Props) {
     return (
         <div className="weather-content">
             <div>
-                <h1 className="temperature">{temperature}°</h1>
+                <h1 className="temperature">{Math.round(temperature)}°</h1>
             </div>
             <div className="info-container">
                 <p className="city">{city}</p>

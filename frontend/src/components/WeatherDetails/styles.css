@@ -14,7 +14,6 @@
     border: 3px solid rgba(255, 255, 255, 0.1);
 }
 
-
 .title-details {
     font-size: 18px;
     margin-top: 30px;
@@ -56,4 +55,19 @@ hr {
     color: var(--color-text-gray);
     font-weight: 600;
     margin-left: 200px;
+}
+
+.login-cotainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 100%;
+    padding: 40px 90px 0px 0;
+    
+}
+
+.login-cotainer img {
+    width: 60px;
+    height: 60px;
+    
 }

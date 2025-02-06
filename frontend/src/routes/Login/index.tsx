@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './styles.css';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
     const [isSignUp, setIsSignUp] = useState(false);
@@ -12,6 +13,7 @@ export default function Login() {
         <div className="login-wrapper">
             <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container">
                 <div className={`form-container ${isSignUp ? 'sign-up-container' : 'sign-in-container'}`}>
+                <h5 className='voltar-styles'><Link to='/home'>Voltar</Link></h5>
                     <form action="#">
                         <h1>{isSignUp ? 'Create Account' : 'Sign in'}</h1>
                         <span>{isSignUp ? 'use seu e-mail para cadastro' : ''}</span>

@@ -5,12 +5,23 @@ import dropImg from '../../assets/gota.svg'
 import cloudyImg from '../../assets/nublado.svg'
 import windImg from '../../assets/vento.svg'
 import snowImg from '../../assets/outline.svg'
+import loginImg from '../../assets/entrar.png'
 import DescriptionWeather from '../DescriptionWeather';
+import { Link } from 'react-router-dom';
+import { WeatherResponseDTO } from '../../models/WeatherResponseDTO';
 import './styles.css';
 
-export default function WeatherDetails() {
+interface WeatherDetailsProps {
+    weather: WeatherResponseDTO;
+}
+
+export default function WeatherDetails({ weather }: WeatherDetailsProps) {
     return (
         <div className="modal">
+            <div className='login-cotainer'>
+                <Link to='/login'><img src={loginImg} alt="" /></Link>
+            </div>
+
             <Search />
             <div className='title-details'>
                 <p>Detalhes do tempo...</p>

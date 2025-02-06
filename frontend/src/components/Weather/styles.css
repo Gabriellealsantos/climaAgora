@@ -10,7 +10,7 @@
 }
 
 .temperature {
-    font-size: 145px;
+    font-size: 100px;
     font-weight: 600;
     line-height: 1;
     margin-right: 20px; 
@@ -23,8 +23,8 @@
 }
 
 .city {
-    font-size: 60px;
-    font-weight: 500;
+    font-size: 50px;
+    font-weight: 400;
     margin: 0;
 }
 

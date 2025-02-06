@@ -207,3 +207,7 @@
 .login-wrapper .container.right-panel-active .overlay-right {
     transform: translateX(20%);
 }
+
+.voltar-styles {
+    padding: 15px;
+}

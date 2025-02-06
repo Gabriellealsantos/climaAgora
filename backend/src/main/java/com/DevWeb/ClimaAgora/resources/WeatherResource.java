@@ -26,6 +26,7 @@ public class WeatherResource {
                         .path("/weather")
                         .queryParam("lang", "pt")
                         .queryParam("q", city)
+                        .queryParam("units", "metric")
                         .queryParam("appid", API_KEY)
                         .build())
                 .retrieve()
