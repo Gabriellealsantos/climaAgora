@@ -5,7 +5,7 @@ import { WindDTO } from "./WindDTO";
 import { CloudsDTO } from "./CloudsDTO";
 import { SysDTO } from "./SysDTO";
 
-export interface WeatherResponseDTO {
+export type WeatherResponseDTO = {
     coord: CoordDTO;
     weather: WeatherDTO[];
     base: string;

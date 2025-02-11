@@ -5,27 +5,40 @@ import WeatherDetails from "../../components/WeatherDetails";
 import * as weatherService from '../../services/weather-service';
 import { WeatherResponseDTO } from "../../models/WeatherResponseDTO";
 import { formatDate } from "../../utils/utils";
+import { CityDTO } from "../../models/CityDTO";
 
 export default function Home() {
+
     const [weather, setWeather] = useState<WeatherResponseDTO | null>(null);
 
+    const [city, setCity] = useState<{ city: CityDTO } | undefined>(undefined);
+
+
     useEffect(() => {
-        weatherService.findWeatherResquest("antarctica")
+
+        const nomeCidade = city?.city?.formatted
+            ? city.city.formatted.split(",")[0]
+            : "Sapeaçu";
+
+        weatherService.findWeatherResquest(nomeCidade)
             .then(response => {
                 setWeather(response.data);
-                console.log("Dados do clima:", response.data);
             })
-            .catch(error => console.error("Erro ao buscar clima:", error));
-    }, []);
+            .catch(error => console.error("Erro ao buscar clima com a nova cidade:", error));
+    }, [city]);
+
+    const handleCitySelect = (city: CityDTO) => {
+        setCity({ city });
+    };
 
     return (
         <BackgroundImage>
             <div className="home-container">
                 {weather ? (
                     <Weather
-                        temperature={weather?.main.temp ?? 0}
-                        city={weather?.name ?? "Desconhecido"}
-                        date={weather ? formatDate(weather.dt) : "Carregando..."}
+                        temperature={weather.main.temp ?? 0}
+                        city={weather.name ?? "Desconhecido"}
+                        date={formatDate(weather.dt , weather.timezone)}
                     />
                 ) : (
                     <p>Carregando...</p>
@@ -33,7 +46,9 @@ export default function Home() {
             </div>
 
             <div>
-                {weather && <WeatherDetails weather={weather} />}
+                {weather && (
+                    <WeatherDetails weather={weather} onCitySelect={handleCitySelect} />
+                )}
             </div>
         </BackgroundImage>
     );

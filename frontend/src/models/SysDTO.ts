@@ -1,4 +1,4 @@
-export interface SysDTO {
+export type SysDTO = {
     country: string;
     sunrise: number;
     sunset: number;

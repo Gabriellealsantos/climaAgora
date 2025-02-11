@@ -1,3 +1,3 @@
-export interface CloudsDTO {
+export type CloudsDTO = {
     all: number;
 }

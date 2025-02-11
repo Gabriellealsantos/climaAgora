@@ -1,4 +1,4 @@
-export interface WeatherDTO {
+export type WeatherDTO = {
     id: number;
     main: string;
     description: string;

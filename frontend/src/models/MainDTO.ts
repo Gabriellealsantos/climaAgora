@@ -1,4 +1,4 @@
-export interface MainDTO {
+export type MainDTO = {
     temp: number;
     feels_like: number;
     temp_min: number;

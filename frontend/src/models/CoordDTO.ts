@@ -1,4 +1,4 @@
-export interface CoordDTO {
+export type CoordDTO = {
     lon: number;
     lat: number;
   }
