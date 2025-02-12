@@ -33,5 +33,5 @@ public class WeatherResource {
                 .bodyToMono(WeatherResponseDTO.class);
         return response.map(ResponseEntity::ok);
     }
-    
+
 }
