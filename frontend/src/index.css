@@ -111,7 +111,7 @@ main {
 }
 
 .dsc-form-control[data-dirty="true"][data-invalid="true"] {
-  border: 1px solid var(--dsc-color-error);
+  border: 1px solid var(--color-error);
 }
 
 .dsc-form-control[data-dirty="true"][data-invalid="true"]~div {
@@ -127,21 +127,39 @@ main {
 }
 
 .dsc-form-error {
-  color: var(--dsc-color-error);
+  color: var(--color-error);
+  font-size: 12px;
+  padding-left: 4px;
+  display: none;
+}
+
+.dsc-form-error-signup {
+  color: var(--color-error);
   font-size: 12px;
   padding-left: 4px;
   display: none;
 }
 
 .dsc-form-global-error {
-  border: 1px solid var(--dsc-color-error);
+  border: 1px solid var(--color-error);
   border-radius: 5px;
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 5px 10px;
   font-size: 12px;
-  color: var(--dsc-color-error);
+  color: var(--color-error);
+}
+
+.dsc-form-global-error-email {
+  border: 1px solid var(--color-error);
+  border-radius: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 5px 10px;
+  font-size: 12px;
+  color: var(--color-error);
 }
 
 .dsc-textarea {

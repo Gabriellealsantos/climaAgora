@@ -6,6 +6,7 @@ import { CLIENT_ID, CLIENT_SECRET } from "../utils/system";
 import { requestBackend } from "../utils/requests";
 import * as accessTokenRepository from "../localstorege/access-token-repository"
 import { jwtDecode } from "jwt-decode"
+import { UserDataDTO } from "../models/userDataDTO";
 
 export function loginRequest(loginData: CredentialsDTO) {
 
@@ -48,6 +49,22 @@ export function getAccessTokenPayload(): AccessTokenPayloadDTO | undefined {
         return undefined;
     }
 }
+
+export function signUpRequest(userData: UserDataDTO) {
+    const requestData = {
+        ...userData
+    };
+    
+    const config: AxiosRequestConfig = {
+        method: 'POST',
+        url: "/users",
+        withCredentials: false,
+        data: requestData
+    };
+
+    return requestBackend(config);
+}
+
 
 
 export function isAuthenticated(): boolean {

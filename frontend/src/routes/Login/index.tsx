@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as authService from '../../services/auth-service';
 import * as forms from '../../utils/forms';
 import FormInput from '../../components/FormInput';
@@ -9,110 +9,224 @@ import './styles.css';
 
 export default function Login() {
     const [isSignUp, setIsSignUp] = useState(false);
-
     const { setContextTokenPayload } = useContext(ContextToken);
-
     const navigate = useNavigate();
 
-    const toggleForm = () => {
-        setIsSignUp(!isSignUp);
-    };
-
-    const [submitResponseFail, setSubmitResponseFail] = useState(false);
-
-    const [formData, setFormData] = useState<any>({
+    // Estados separados para cada formulário
+    const [loginFormData, setLoginFormData] = useState<any>({
         username: {
             value: "",
             id: "username",
             name: "username",
             type: "text",
             placeholder: "Email",
-            validation: function (value: string) {
-                return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value.toLowerCase());
-            },
+            validation: (value: string) =>
+                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value.toLowerCase()),
             message: "Favor informar um email válido",
         },
-        password: {
+        loginPassword: {
             value: "",
-            id: "password",
-            name: "password",
+            id: "loginPassword",
+            name: "loginPassword",
             type: "password",
             placeholder: "Senha",
-        }
-    })
+        },
+    });
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    const initialSignUpFormData = {
+        firstName: {
+            value: "",
+            id: "firstName",
+            name: "firstName",
+            type: "text",
+            placeholder: "Nome",
+        },
+        lastName: {
+            value: "",
+            id: "lastName",
+            name: "lastName",
+            type: "text",
+            placeholder: "Sobrenome",
+        },
+        email: {
+            value: "",
+            id: "email",
+            name: "email",
+            type: "text",
+            placeholder: "Email",
+            validation: (value: string) =>
+                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value),
+            message: "Favor informar um email válido",
+        },
+        signUpPassword: {
+            value: "",
+            id: "signUpPassword",
+            name: "signUpPassword",
+            type: "password",
+            placeholder: "Senha",
+            validation: (value: string) =>
+                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/.test(value),
+            message:
+                "A senha deve ter pelo menos 8 caracteres, 1 letra maiúscula, 1 número e 1 símbolo",
+        },
+    };
+
+    const [signUpFormData, setSignUpFormData] = useState<any>(initialSignUpFormData);
+    const [submitResponseFailLogin, setSubmitResponseFailLogin] = useState(false);
+    const [submitResponseFailSignUp, setSubmitResponseFailSignUp] = useState(false);
+
+    // Handlers para o formulário de Login
+    function handleLogin(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        setSubmitResponseFailLogin(false);
 
-        setSubmitResponseFail(false);
-
-        const formDataValidated = forms.dirtyAndValidateAll(formData);
-
-        if (forms.hasAnyInvalid(formDataValidated)) {
-            setFormData(formDataValidated);
+        const validated = forms.dirtyAndValidateAll(loginFormData);
+        if (forms.hasAnyInvalid(validated)) {
+            setLoginFormData(validated);
             return;
         }
 
+        const loginData = {
+            username: loginFormData.username.value,
+            password: loginFormData.loginPassword.value,
+        };
 
-        authService.loginRequest(forms.toValues(formData))
+        authService.loginRequest(loginData)
             .then(response => {
                 authService.saveAccessToken(response.data.access_token);
                 setContextTokenPayload(authService.getAccessTokenPayload());
-                navigate("/cart");
+                navigate("/");
+            })
+            .catch(error => {
+                console.error("Erro no login:", error);
+                setSubmitResponseFailLogin(true);
+            });
+    }
+
+    // Handlers para o formulário de Sign Up
+    function handleSignUp(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        setSubmitResponseFailSignUp(false);
+
+        const validated = forms.dirtyAndValidateAll(signUpFormData);
+        if (forms.hasAnyInvalid(validated)) {
+            setSignUpFormData(validated);
+            return;
+        }
+
+        const signUpData = {
+            firstName: signUpFormData.firstName.value.trim(),
+            lastName: signUpFormData.lastName.value.trim(),
+            email: signUpFormData.email.value.trim(),
+            password: signUpFormData.signUpPassword.value,
+        };
+
+        authService.signUpRequest(signUpData)
+            .then(() => {
+                setSignUpFormData(initialSignUpFormData);
+                setIsSignUp(false);
             })
             .catch(() => {
-                setSubmitResponseFail(true);
-            })
+                setSubmitResponseFailSignUp(true);
+            });
     }
 
-
-    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setFormData(forms.updateAndValidate(formData, event.target.name, event.target.value));
+    // Handlers de input para login e sign up separadamente
+    function handleLoginInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setLoginFormData(forms.updateAndValidate(loginFormData, event.target.name, event.target.value));
     }
 
-    function handleTurnDirty(name: string) {
-        setFormData(forms.dirtyAndValidate(formData, name));
+    function handleSignUpInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setSignUpFormData(forms.updateAndValidate(signUpFormData, event.target.name, event.target.value));
+    }
+
+    function handleTurnDirtyLogin(name: string) {
+        setLoginFormData(forms.dirtyAndValidate(loginFormData, name));
+    }
+
+    function handleTurnDirtySignUp(name: string) {
+        setSignUpFormData(forms.dirtyAndValidate(signUpFormData, name));
+    }
+
+    function toggleForm() {
+        setIsSignUp(prev => !prev);
     }
 
     return (
         <div className="login-wrapper">
             <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container">
-                <div className={`form-container ${isSignUp ? 'sign-up-container' : 'sign-in-container'}`}>
-                    <h5 className='voltar-styles'><Link to='/home'>Voltar</Link></h5>
-                    <form action="#" onSubmit={handleSubmit}>
-                        <h1>{isSignUp ? 'Create Account' : 'Sign in'}</h1>
-                        <span>{isSignUp ? 'use seu e-mail para cadastro' : ''}</span>
-                        
-                        {isSignUp &&
-                            <input type="text" placeholder="Nome"
-                            />}
-
-                        <FormInput
-                            {...formData.username}
-                            className="dsc-form-control"
-                            onTrunDirty={handleTurnDirty}
-                            onChange={handleInputChange}
-                        />
-
-                        <div className="dsc-form-error">{formData.username.message} </div>
-
-                        <FormInput
-                            {...formData.password}
-                            className="dsc-form-control"
-                            onTrunDirty={handleTurnDirty}
-                            onChange={handleInputChange}
-                        />
-
-                        {
-                            submitResponseFail &&
-                            <div className="dsc-form-global-error">
-                                Usuário ou senha inválidos
-                            </div>
-                        }
-
-                        <button type="submit">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
-                    </form>
+                {/* Formulário de Cadastro */}
+                <div className="form-container sign-up-container">
+                    {isSignUp && (
+                        <form onSubmit={handleSignUp}>
+                            <h1>Create Account</h1>
+                            <FormInput
+                                {...signUpFormData.firstName}
+                                className="dsc-form-control"
+                                onTrunDirty={handleTurnDirtySignUp}
+                                onChange={handleSignUpInputChange}
+                            />
+                            <FormInput
+                                {...signUpFormData.lastName}
+                                className="dsc-form-control"
+                                onTrunDirty={handleTurnDirtySignUp}
+                                onChange={handleSignUpInputChange}
+                            />
+                            <FormInput
+                                {...signUpFormData.email}
+                                className="dsc-form-control"
+                                onTrunDirty={handleTurnDirtySignUp}
+                                onChange={handleSignUpInputChange}
+                            />
+                            <FormInput
+                                {...signUpFormData.signUpPassword}
+                                className="dsc-form-control"
+                                onTrunDirty={handleTurnDirtySignUp}
+                                onChange={handleSignUpInputChange}
+                            />
+                            {signUpFormData.signUpPassword.invalid === "true" && (
+                                <div className="dsc-form-error mb20">
+                                    {signUpFormData.signUpPassword.message}
+                                </div>
+                            )}
+                            {submitResponseFailSignUp && (
+                                <div className="dsc-form-global-error-email mb20">
+                                    Usuário já cadastrado com esse email
+                                </div>
+                            )}
+                            <button type="submit">Sign Up</button>
+                        </form>
+                    )}
                 </div>
+
+                {/* Formulário de Login */}
+                <div className="form-container sign-in-container">
+                    {!isSignUp && (
+                        <form onSubmit={handleLogin}>
+                            <h1>Sign In</h1>
+                            <FormInput
+                                {...loginFormData.username}
+                                className="dsc-form-control"
+                                onTrunDirty={handleTurnDirtyLogin}
+                                onChange={handleLoginInputChange}
+                            />
+                            <FormInput
+                                {...loginFormData.loginPassword}
+                                className="dsc-form-control"
+                                onTrunDirty={handleTurnDirtyLogin}
+                                onChange={handleLoginInputChange}
+                            />
+                            {submitResponseFailLogin && (
+                                <div className="dsc-form-global-error mb20">
+                                    Usuário ou senha inválidos
+                                </div>
+                            )}
+                            <button type="submit">Sign In</button>
+                        </form>
+                    )}
+                </div>
+
+                {/* Overlay para alternar os formulários */}
                 <div className="overlay-container">
                     <div className="overlay">
                         <div className="overlay-panel overlay-left">
