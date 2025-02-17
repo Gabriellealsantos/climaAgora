@@ -11,9 +11,7 @@ export default function LoggedUser() {
         authService.logout();
         setContextTokenPayload(undefined);
     }
-
-    console.log("Token payload:", contextTokenPayload);
-
+    
     return (
         contextTokenPayload && authService.isAuthenticated()
             ? (
