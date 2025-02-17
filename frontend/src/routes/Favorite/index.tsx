@@ -7,7 +7,7 @@ import FormInput from '../../components/FormInput';
 import { ContextToken } from '../../utils/context-token';
 import './styles.css';
 
-export default function Login() {
+export default function Favorite() {
     const [isSignUp, setIsSignUp] = useState(false);
     const { setContextTokenPayload } = useContext(ContextToken);
     const navigate = useNavigate();
