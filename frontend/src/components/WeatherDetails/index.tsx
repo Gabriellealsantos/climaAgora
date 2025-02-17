@@ -4,11 +4,10 @@ import iceImg from '../../assets/frio.svg';
 import dropImg from '../../assets/gota.svg';
 import cloudyImg from '../../assets/nublado.svg';
 import windImg from '../../assets/vento.svg';
-import loginImg from '../../assets/entrar.png';
 import DescriptionWeather from '../DescriptionWeather';
-import { Link } from 'react-router-dom';
 import { WeatherResponseDTO } from '../../models/WeatherResponseDTO';
 import { CityDTO } from '../../models/CityDTO';
+import LoggedUser from '../LoggedUser';
 import './styles.css';
 
 interface WeatherDetailsProps {
@@ -17,10 +16,12 @@ interface WeatherDetailsProps {
 }
 
 export default function WeatherDetails({ weather, onCitySelect }: WeatherDetailsProps) {
+
     return (
         <div className="modal">
             <div className='login-cotainer'>
-                <Link to='/login'><img src={loginImg} alt="Login" /></Link>
+                <LoggedUser />
+
             </div>
             <div>
                 <Search onCitySelect={onCitySelect} />

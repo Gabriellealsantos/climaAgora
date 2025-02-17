@@ -172,3 +172,42 @@ main {
   padding: unset;
   height: unset;
 }
+
+/*-----------------------------------------------------------------*/
+/* header styles */
+
+.dsc-logged-user {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.dsc-logged-user span {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.dsc-logged-user p {
+  font-size: 12px;
+}
+
+.dsc-logged-user a {
+  font-weight: 700;
+}
+
+.dsc-user-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 185px;
+}
+
+.dsc-logged-user {
+  margin-right: 20px;
+}
+
+.dsc-favorites {
+  margin-left: 20px;
+  transform: translateY(-10px);
+}
