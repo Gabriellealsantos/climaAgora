@@ -1,3 +1,25 @@
 .favorite-container {
-    background-color: red;
+    height: 100vh;
+    background-color: var(--color-bg-purple);
+    position: relative;
+    /* Necessário para posicionar os elementos filhos de forma absoluta */
+    overflow: hidden;
+    /* Evita que conteúdos fora do container causem scroll */
+}
+
+.favorite-content {
+    position: relative;
+    height: 100%;
+}
+
+.favorite-content img {
+    position: absolute;
+    bottom: 0;
+    /* Fixa a imagem na parte inferior */
+    left: 50%;
+    /* Centraliza horizontalmente */
+    transform: translateX(-50%);
+    max-width: 100%;
+    /* Garante que a imagem não ultrapasse a largura do container */
+    height: auto;
 }

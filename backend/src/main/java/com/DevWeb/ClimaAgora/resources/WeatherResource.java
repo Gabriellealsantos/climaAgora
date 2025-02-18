@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping(value = "weather")
 public class WeatherResource {
 
-    @Value("${openweather.api.key}") // Corrigi a variável de ambiente
+    @Value("${openweather.api.key}")
     private String API_KEY;
 
     private final WebClient webClient = WebClient.create("https://api.openweathermap.org/data/2.5");
