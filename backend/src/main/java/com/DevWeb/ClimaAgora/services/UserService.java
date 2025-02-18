@@ -148,4 +148,29 @@ public class UserService implements UserDetailsService {
 
         favoriteRepository.save(favorite);
     }
+
+    @Transactional
+    public void removeFavoriteCity(String city) {
+        User user = authService.authenticated(); // Obtém o usuário autenticado
+
+        // Busca a cidade favorita do usuário
+        Optional<Favorite> favorite = favoriteRepository.findByUserAndCity(user, city);
+
+        if (favorite.isPresent()) {
+            favoriteRepository.delete(favorite.get()); // Remove do banco
+        } else {
+            throw new ResourceNotFoundException("Cidade favorita não encontrada");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> getFavoriteCities() {
+        User user = authService.authenticated(); // Obtém o usuário autenticado
+
+        // Busca todas as cidades favoritas do usuário e retorna apenas os nomes
+        return favoriteRepository.findByUser(user).stream()
+                .map(Favorite::getCity)
+                .toList();
+    }
+
 }

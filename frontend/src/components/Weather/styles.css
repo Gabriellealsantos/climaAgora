@@ -39,7 +39,21 @@
     margin-top: 30px;
 }
 
-.heart {
-    padding: 20px 0 0 25px;
+.heart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: white;
+    margin-left: 25px;
 }
+
+.heart svg {
+    transition: transform 0.2s ease-in-out;
+}
+
+.heart-btn:hover .heart svg {
+    transform: scale(1.1);
+}
+
 

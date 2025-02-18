@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -67,9 +68,24 @@ public class UserResource {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
-    @PostMapping("/add-favorite-city")
-    public ResponseEntity<Void> addFavoriteCity(@RequestParam String city) {
+    @GetMapping("/favorites")
+    public ResponseEntity<List<String>> getFavorites() {
+        List<String> favorites = service.getFavoriteCities();
+        return ResponseEntity.ok(favorites);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
+    @PostMapping("/favorites/{city}")
+    public ResponseEntity<Void> addFavoriteCity(@PathVariable String city) {
         service.addFavoriteCity(city);
         return ResponseEntity.ok().build();
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
+    @DeleteMapping("/favorites/{city}")
+    public ResponseEntity<Void> removeFavorite(@PathVariable String city) {
+        service.removeFavoriteCity(city);
+        return ResponseEntity.ok().build();
+    }
+
 } 

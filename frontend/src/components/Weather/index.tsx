@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
-import cloudyImg from '../../assets/Cloudy.svg';
-import * as userService from '../../services/user-service';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import './styles.css';
-import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'; // Coração contorno (Grátis)
-import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'; // Coração preenchido (Grátis)
-
+import { useState, useEffect, useContext } from "react";
+import cloudyImg from "../../assets/Cloudy.svg";
+import * as userService from "../../services/user-service";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { ContextToken } from "../../utils/context-token";
+import { toast } from "react-custom-alert"; // Importa o toast
+import "./styles.css";
 
 interface Props {
     temperature: number;
@@ -16,16 +14,41 @@ interface Props {
 
 export default function Weather({ temperature, city, date }: Props) {
     const [isFavorite, setIsFavorite] = useState(false);
+    const { contextTokenPayload } = useContext(ContextToken);
+    const isLoggedIn = !!contextTokenPayload; // Verifica se o usuário está logado
 
-    
+    useEffect(() => {
+        if (isLoggedIn) {
+            userService.getListFavorite()
+                .then(response => {
+                    const favorites: string[] = response.data;
+                    setIsFavorite(favorites.includes(city));
+                })
+                .catch(error => console.error("Erro ao buscar favoritos:", error));
+        }
+    }, [city, isLoggedIn]);
 
     const handleFavoriteClick = () => {
-        if (!isFavorite) {
+        if (!isLoggedIn) {
+            // Exibe um alerta customizado com react-custom-alert
+            toast.warning("Você precisa estar logado para favoritar cidades!");
+            return;
+        }
+
+        if (isFavorite) {
+            userService.removeFavorite(city)
+                .then(() => setIsFavorite(false))
+                .catch(error => {
+                    console.error("Erro ao remover dos favoritos:", error);
+                    toast.error("Erro ao remover dos favoritos!");
+                });
+        } else {
             userService.addFavorite(city)
-                .then(() => {
-                    setIsFavorite(true);
-                })
-                .catch(error => console.error("Erro ao favoritar a cidade:", error));
+                .then(() => setIsFavorite(true))
+                .catch(error => {
+                    console.error("Erro ao favoritar a cidade:", error);
+                    toast.error("Erro ao favoritar a cidade!");
+                });
         }
     };
 
@@ -37,12 +60,14 @@ export default function Weather({ temperature, city, date }: Props) {
             <div className="info-container">
                 <p className="city">
                     {city}
-                    <span className='heart' onClick={handleFavoriteClick}>
-                        <FontAwesomeIcon
-                            size='2xs'
-                            icon={faHeart}
-                            style={{ color: isFavorite ? "red" : "white" }} // Muda a cor do ícone ao favoritar
-                        />
+                    <span className="heart">
+                        <button onClick={handleFavoriteClick} className="heart-btn">
+                            {isFavorite ? (
+                                <FaHeart size={32} color="red" />
+                            ) : (
+                                <FaRegHeart size={32} />
+                            )}
+                        </button>
                     </span>
                 </p>
                 <p className="date">{date}</p>

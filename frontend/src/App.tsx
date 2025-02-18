@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { ContextToken } from './utils/context-token';
 import { ContextCartCount } from './utils/context-cart';
 import * as authService from './services/auth-service'
+import 'react-custom-alert/dist/index.css'; // Importa o CSS da biblioteca
+import { ToastContainer } from 'react-custom-alert';
 import './index.css'
 
 export default function App() {
@@ -29,6 +31,7 @@ export default function App() {
     <ContextToken.Provider value={{ contextTokenPayload, setContextTokenPayload }}>
       <ContextCartCount.Provider value={{ contextCartCount, setContextCartCount }}>
         <HistoryRouter history={history}>
+          <ToastContainer floatingTime={5000} />
           <Routes>
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />

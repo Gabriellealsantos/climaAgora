@@ -13,10 +13,29 @@ export function findMe() {
 }
 
 export function addFavorite(city: string) {
-
     const config: AxiosRequestConfig = {
         method: 'POST',
-        url: `/users/add-favorite-city?city=${city}`,  // Cidade como query param
+        url: `/users/favorites/${city}`,  // Cidade como PathVariable
+        withCredentials: true,
+    };
+
+    return requestBackend(config);
+}
+
+export function removeFavorite(city: string) {
+    const config: AxiosRequestConfig = {
+        method: "DELETE",
+        url: `/users/favorites/${city}`, // Agora a URL está correta
+        withCredentials: true,
+    };
+
+    return requestBackend(config);
+}
+
+export function getListFavorite() {
+    const config: AxiosRequestConfig = {
+        method: "GET",
+        url: "/users/favorites", // Corrigido para refletir a API
         withCredentials: true,
     };
 
