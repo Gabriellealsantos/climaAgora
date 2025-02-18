@@ -1,0 +1,10 @@
+.slick-slider {
+    width: 90%;
+    max-width: 100%;
+}
+
+.slick-prev,
+.slick-next {
+    z-index: 1;
+    /* Garante que os botões de navegação fiquem visíveis */
+}

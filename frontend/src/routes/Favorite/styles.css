@@ -2,9 +2,7 @@
     height: 100vh;
     background-color: var(--color-bg-purple);
     position: relative;
-    /* Necessário para posicionar os elementos filhos de forma absoluta */
     overflow: hidden;
-    /* Evita que conteúdos fora do container causem scroll */
 }
 
 .favorite-content {
@@ -12,14 +10,56 @@
     height: 100%;
 }
 
+.favorite-carrousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+}
+
 .favorite-content img {
     position: absolute;
     bottom: 0;
-    /* Fixa a imagem na parte inferior */
     left: 50%;
-    /* Centraliza horizontalmente */
     transform: translateX(-50%);
     max-width: 100%;
-    /* Garante que a imagem não ultrapasse a largura do container */
     height: auto;
+}
+
+.favorite-carrousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+}
+
+.slick-slide {
+    padding: 0 100px;
+    /* Ajusta o espaçamento dos slides internos */
+}
+
+/* Estilo para o link */
+.link-voltar {
+    text-decoration: none;
+    background-color: rgba(215, 152, 249, 0.27);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-radius: 40px;
+    backdrop-filter: blur(20px);
+    box-shadow: inset 0 -3px 15px rgba(255, 255, 255, 0.4),
+        inset 0 3px 25px rgba(255, 255, 255, 0.24),
+        inset 0 -1px 4px rgba(255, 255, 255, 0.5);
+}
+
+.no-favorites-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: white;
+    margin-top: 20px;
 }

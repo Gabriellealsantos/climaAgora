@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import * as userService from '../../services/user-service'; 
-import * as weatherService from '../../services/weather-service'; 
+import * as userService from '../../services/user-service';
+import * as weatherService from '../../services/weather-service';
 import nuvensImg from '../../assets/nuvens.svg';
-import GlassCard from '../../components/GlassCard';
 import { WeatherResponseDTO } from '../../models/WeatherResponseDTO';
+import Carousel from '../../components/Carousel';
 import './styles.css';
+import { Link } from 'react-router-dom';
 
 export default function Favorite() {
     const [favorites, setFavorites] = useState<string[]>([]);
@@ -32,10 +33,22 @@ export default function Favorite() {
 
     return (
         <div className='favorite-container'>
+            <div>
+                <Link to="/home" className="link-voltar">
+                    Voltar
+                </Link>
+            </div>
             <div className='favorite-content'>
-                {weatherData.map((weather, index) => (
-                    <GlassCard key={index} weather={weather} />
-                ))}
+                {favorites.length > 0 ? (
+                    <div className='favorite-carrousel'>
+                        <Carousel weatherData={weatherData} />
+                    </div>
+                ) : (
+                    <p className="no-favorites-message">
+                        Você ainda não tem cidades favoritas.
+                    </p>
+                )}
+
                 <img src={nuvensImg} alt="nuvens" />
             </div>
         </div>

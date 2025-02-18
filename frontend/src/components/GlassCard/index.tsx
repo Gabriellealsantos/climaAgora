@@ -13,7 +13,8 @@ export default function GlassCard({ weather }: WeatherDetailsProps) {
             <section className="content-section">
                 <div className="weather-info">
                     <div className="left-side">
-                        <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt={weather.weather[0].description} />
+
+                        <img className='weather-info-img' src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt={weather.weather[0].description} />
                         <p className="condition">{weather.weather[0].description}</p>
                     </div>
                     <div className="right-side">

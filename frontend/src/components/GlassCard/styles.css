@@ -44,6 +44,7 @@
     font-weight: 600;
     text-transform: uppercase;
     margin-top: 15px; /* Espaço para o ícone */
+    margin-right: 25px !important;
 }
 
 .location span {
@@ -84,10 +85,9 @@
     border-radius: 1px;
 }
 
-.weather-info img {
-    width: 100px; /* Aumenta o tamanho do ícone */
-    height: 100px;
-    position: absolute;
-    top: -50px; /* Posiciona o ícone acima da descrição */
-    left: 30px;
+.weather-info-img {
+    width: 100px !important;
+    height: 100px !important;
+    top: -50px;
+    left: 40px !important;
 }
