@@ -5,6 +5,7 @@ import * as authService from '../../services/auth-service';
 import * as forms from '../../utils/forms';
 import FormInput from '../../components/FormInput';
 import { ContextToken } from '../../utils/context-token';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Ícones importados
 import './styles.css';
 
 export default function Login() {
@@ -28,7 +29,7 @@ export default function Login() {
             value: "",
             id: "loginPassword",
             name: "loginPassword",
-            type: "password",
+            type: "password", // Inicia como password
             placeholder: "Senha",
         },
     });
@@ -62,7 +63,7 @@ export default function Login() {
             value: "",
             id: "signUpPassword",
             name: "signUpPassword",
-            type: "password",
+            type: "password", // Inicia como password
             placeholder: "Senha",
             validation: (value: string) =>
                 /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/.test(value),
@@ -74,6 +75,28 @@ export default function Login() {
     const [signUpFormData, setSignUpFormData] = useState<any>(initialSignUpFormData);
     const [submitResponseFailLogin, setSubmitResponseFailLogin] = useState(false);
     const [submitResponseFailSignUp, setSubmitResponseFailSignUp] = useState(false);
+
+    // NOVA FUNÇÃO
+    function toggleLoginPasswordVisibility() {
+        setLoginFormData((prevData: any) => ({
+            ...prevData,
+            loginPassword: {
+                ...prevData.loginPassword,
+                type: prevData.loginPassword.type === 'password' ? 'text' : 'password',
+            },
+        }));
+    }
+
+    // NOVA FUNÇÃO
+    function toggleSignUpPasswordVisibility() {
+        setSignUpFormData((prevData: any) => ({
+            ...prevData,
+            signUpPassword: {
+                ...prevData.signUpPassword,
+                type: prevData.signUpPassword.type === 'password' ? 'text' : 'password',
+            },
+        }));
+    }
 
     // Handlers para o formulário de Login
     function handleLogin(event: React.FormEvent<HTMLFormElement>) {
@@ -131,7 +154,7 @@ export default function Login() {
             });
     }
 
-    // Handlers de input para login e sign up separadamente
+    // Handlers de input
     function handleLoginInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setLoginFormData(forms.updateAndValidate(loginFormData, event.target.name, event.target.value));
     }
@@ -178,12 +201,18 @@ export default function Login() {
                                 onTrunDirty={handleTurnDirtySignUp}
                                 onChange={handleSignUpInputChange}
                             />
-                            <FormInput
-                                {...signUpFormData.signUpPassword}
-                                className="dsc-form-control"
-                                onTrunDirty={handleTurnDirtySignUp}
-                                onChange={handleSignUpInputChange}
-                            />
+                            {/* Bloco da senha de cadastro modificado */}
+                            <div className="password-input-wrapper">
+                                <FormInput
+                                    {...signUpFormData.signUpPassword}
+                                    className="dsc-form-control"
+                                    onTrunDirty={handleTurnDirtySignUp}
+                                    onChange={handleSignUpInputChange}
+                                />
+                                <span className="password-toggle-icon" onClick={toggleSignUpPasswordVisibility}>
+                                    {signUpFormData.signUpPassword.type === 'password' ? <FaEyeSlash /> : <FaEye />}
+                                </span>
+                            </div>
                             {signUpFormData.signUpPassword.invalid === "true" && (
                                 <div className="dsc-form-error mb20">
                                     {signUpFormData.signUpPassword.message}
@@ -210,12 +239,18 @@ export default function Login() {
                                 onTrunDirty={handleTurnDirtyLogin}
                                 onChange={handleLoginInputChange}
                             />
-                            <FormInput
-                                {...loginFormData.loginPassword}
-                                className="dsc-form-control"
-                                onTrunDirty={handleTurnDirtyLogin}
-                                onChange={handleLoginInputChange}
-                            />
+                            {/* Bloco da senha de login modificado */}
+                            <div className="password-input-wrapper">
+                                <FormInput
+                                    {...loginFormData.loginPassword}
+                                    className="dsc-form-control"
+                                    onTrunDirty={handleTurnDirtyLogin}
+                                    onChange={handleLoginInputChange}
+                                />
+                                <span className="password-toggle-icon" onClick={toggleLoginPasswordVisibility}>
+                                    {loginFormData.loginPassword.type === 'password' ? <FaEyeSlash /> : <FaEye />}
+                                </span>
+                            </div>
                             {submitResponseFailLogin && (
                                 <div className="dsc-form-global-error mb20">
                                     Usuário ou senha inválidos
