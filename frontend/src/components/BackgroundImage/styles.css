@@ -1,5 +1,5 @@
 .background-container {
-  background-image: url('/home/gabriel/projetos/climaAgora/frontend/src/assets/fundo-gelado.svg');
+   background-image: url('./../../assets/fundo-gelado.svg');
   background-size: cover;
   background-position: center;
   width: 100%;

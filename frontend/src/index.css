@@ -200,7 +200,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 185px;
+  gap: 40%;
+  margin-right: 39%;
 }
 
 .dsc-logged-user {
